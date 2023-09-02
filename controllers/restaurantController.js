@@ -1,63 +1,53 @@
-const getAll = async (req, res) => {
-    const user = req.body.username;
+const { database , ObjectId} = require("../config/db.js");
+const restaurantCollection = database.collection("restaurants");
 
-    console.log("retaurant user", user);
-    const restauntLst = [
-        {
-            "name":"restaurant1",
-            "category":"Isian food",
-            "seats":[12,24,32,12],
-            "date" :"20213-09-23",
-            "restaurantImg":"https://test.com/test.png"
-        },
-        {
-            "name":"restaurant1",
-            "category":"Isian food",
-            "seats":[12,24,32,12],
-            "date" :"20213-09-23",
-            "restaurantImg":"https://test.com/test.png"
-        }
-    ];
+const getAll = async (req, res) => {
+    const user_id = req.body.userId;
+    const restauntLst = await restaurantCollection.find({userId:user_id}).toArray();
+    let result = {status:1, results:restauntLst }
     return res.json({
         success: true,
         data: {
-            results: restauntLst
+            results: result
         }
     });
 };
 
 const Create = async (req, res) => {
     const new_restaurant = req.body;
-
-    console.log("new_restaurant", new_restaurant);
+    const new_restaurant_obj = await restaurantCollection.insertOne(new_restaurant);
+    let results = {status:2,id:new_restaurant_obj.insertedId}
     return res.json({
         success: true,
         data: {
-            UserID: "created successfully!!."
+            result: results
         }
     });
 };
 
 const Update = async (req, res) => {
     const update_restaurant = req.body;
-
-    console.log("update_restaurant", update_restaurant);
+    const update_obj = {$set:{name:req.body.name, category:req.body.category, seats:req.body.seats, date:req.body.date, restaurantImg:req.body.restaurantImg, userId:req.body.userId}}
+    const restaurant_objectID = new ObjectId(update_restaurant._id);
+    const update_restaurant_obj = await restaurantCollection.updateMany({_id:restaurant_objectID}, update_obj);
+    let results = {status:3,id:restaurant_objectID}
     return res.json({
         success: true,
         data: {
-            UserID: "updated successfully!!."
+            result: results
         }
     });
 };
 
 const Delete = async (req, res) => {
-    const restaurnt_ID = req.body.id;
-
-    console.log("deleting restaurnt ID", restaurnt_ID);
+    const restaurnt_ID = req.body._id;
+    const restaurant_objectID = new ObjectId(restaurnt_ID);
+    const is_deleting_restaurant  = await restaurantCollection.deleteOne({_id: restaurant_objectID});
+    let results = {status: 4, id:restaurant_objectID}
     return res.json({
         success: true,
         data: {
-            DeletedID: restaurnt_ID
+            result: results
         }
     });
 };
