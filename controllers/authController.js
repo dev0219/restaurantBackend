@@ -13,7 +13,7 @@ const Login = async (req, res) => {
 
     if (is_exist_user) {
         if (is_exist_user.islogin) {
-            let results = {status:1,id:is_exist_user._id}
+            let results = {status:1,id:is_exist_user._id, role:is_exist_user.role}
             return res.json({
                 success: true,
                 data: {
@@ -22,7 +22,7 @@ const Login = async (req, res) => {
             });
         } else {
             const is_login_user  = await userCollection.updateOne({_id:is_exist_user._id},[{$set:{islogin:true}}]);
-            let results = {status:2,id:is_exist_user._id}
+            let results = {status:2,id:is_exist_user._id, role:is_exist_user.role}
             return res.json({
                 success: true,
                 data: {
@@ -32,7 +32,7 @@ const Login = async (req, res) => {
         }
     } else {
         const new_user = await userCollection.insertOne(userObj);
-        let results = {status:3,id:new_user.insertedId}
+        let results = {status:3,id:new_user.insertedId, role:userObj.role}
         return res.json({
             success: true,
             data: {
@@ -42,7 +42,7 @@ const Login = async (req, res) => {
     }
 };
 
-const Sigout = async (req, res) => {
+const Signout = async (req, res) => {
     const user_id = req.body.id;
     const user_objectID = new ObjectId(user_id);
     const is_signout_user  = await userCollection.updateOne({_id: user_objectID},[{$set:{islogin:false}}]);
@@ -69,4 +69,4 @@ const Delete = async (req, res) => {
 };
 
 // Named export
-module.exports = { Login,Sigout, Delete };
+module.exports = { Login,Signout, Delete };

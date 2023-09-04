@@ -12,6 +12,17 @@ const getAll = async (req, res) => {
         }
     });
 };
+const getMemberAll = async (req, res) => {
+    const user_id = req.body.userId;
+    const restauntLst = await restaurantCollection.find({}).toArray();
+    let result = {status:1, results:restauntLst }
+    return res.json({
+        success: true,
+        data: {
+            results: result
+        }
+    });
+};
 
 const Create = async (req, res) => {
     const new_restaurant = req.body;
@@ -53,4 +64,4 @@ const Delete = async (req, res) => {
 };
 
 // Named export
-module.exports = { getAll, Create, Update, Delete};
+module.exports = { getAll, getMemberAll, Create, Update, Delete};

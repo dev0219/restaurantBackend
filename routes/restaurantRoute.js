@@ -4,7 +4,8 @@ const restaurantController = require('../controllers/restaurantController.js');
 
 const router = Router();
 
-router.get('/all',  restaurantController.getAll);
+router.post('/all',  restaurantController.getAll);
+router.get('/member/all',  restaurantController.getMemberAll);
 router.post('/create',  restaurantController.Create);
 router.put('/update',  restaurantController.Update);
 router.delete('/delete',  restaurantController.Delete);
