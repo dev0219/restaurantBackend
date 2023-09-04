@@ -38,7 +38,7 @@ const Create = async (req, res) => {
 
 const Update = async (req, res) => {
     const update_restaurant = req.body;
-    const update_obj = {$set:{name:req.body.name, category:req.body.category, seats:req.body.seats, date:req.body.date, restaurantImg:req.body.restaurantImg, userId:req.body.userId}}
+    const update_obj = {$set:{name:req.body.name, categories:req.body.categories, seats:req.body.seats, date:req.body.date, restaurantImg:req.body.restaurantImg, userId:req.body.userId}}
     const restaurant_objectID = new ObjectId(update_restaurant._id);
     const update_restaurant_obj = await restaurantCollection.updateMany({_id:restaurant_objectID}, update_obj);
     let results = {status:3,id:restaurant_objectID}
