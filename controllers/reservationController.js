@@ -26,6 +26,27 @@ const Create = async (req, res) => {
     });
 };
 
+const CheckResevation = async (req, res) => {
+    const new_reservation = req.body;
+    console.log(new_reservation);
+    // const new_reservation_obj = await reservationCollection.insertOne(new_reservation);
+    const sumSeats = await reservationCollection.find({day: new_reservation.day, restaurantId: new_reservation.restaurantId}).toArray()
+    console.log(sumSeats);
+    let seatsCounter = 0;
+    if (sumSeats.length) {
+        for (var i=0;i<sumSeats.length;i++) {
+            seatsCounter = seatsCounter+ Number(sumSeats[i].seats)
+        }
+    }
+    let results = {status:2, seats: seatsCounter};
+    return res.json({
+        success: true,
+        data: {
+            result: results
+        }
+    });
+};
+
 const Delete = async (req, res) => {
     const reserve_id = req.body._id;
     const reserve_objectID = new ObjectId(reserve_id);
@@ -40,4 +61,4 @@ const Delete = async (req, res) => {
 };
 
 // Named export
-module.exports = { getAll, Create, Delete};
+module.exports = { getAll, Create, Delete, CheckResevation};
