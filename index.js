@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 const routes = require("./routes/index.js");
 var cors = require("cors");
-const path = __dirname + '/dist/';
+const path = __dirname + '/views/';
 app.use(express.static(path));
 app.use(cors({
   origin: 'http://localhost:8080',
