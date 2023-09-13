@@ -11,7 +11,7 @@ app.use(cors({
   allowedHeaders: 'Content-Type,Authorization',
   credentials: true,
 }));
-app.get('*', function (req,res) {
+app.get('/', function (req,res) {
   res.sendFile(path + "index.html");
 });
 app.use(express.json({limit: '50mb'}));
