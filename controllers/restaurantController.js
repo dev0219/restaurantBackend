@@ -13,7 +13,6 @@ const getAll = async (req, res) => {
     });
 };
 const getMemberAll = async (req, res) => {
-    const user_id = req.body.userId;
     const restauntLst = await restaurantCollection.find({}).toArray();
     let result = {status:1, results:restauntLst }
     return res.json({
