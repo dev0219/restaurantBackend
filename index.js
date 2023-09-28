@@ -5,12 +5,7 @@ const routes = require("./routes/index.js");
 var cors = require("cors");
 // const path = __dirname + '/views/';
 // app.use(express.static(path));
-app.use(cors({
-  origin: '*',
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-  credentials: true,
-}));
+app.use(cors());
 
 // app.get('*', function (req,res) {
 //   res.sendFile(path + "index.html");
